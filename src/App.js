@@ -1,60 +1,23 @@
 import React from 'react';
 import './App.css';
-import InstrumentCard from './components/cards'
-import Grid from '@material-ui/core/Grid';
+import Homepage from './pages/homepage'
+import UserSettings from './pages/user_settings'
+import Logout from './pages/logout'
+import ButtonAppBar from './components/headers'
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
+function App() {
+    return (
+        <Router>
+            <div>
+                <ButtonAppBar />
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            instruments: [],
-        }
-    }
-
-    componentDidMount() {
-        this.apiCall()
-    }
-
-  // Fetches API data
-    apiCall() {
-    // API call function
-        fetch('http://127.0.0.1:8000/instruments/?format=json')
-        // Converts API response to json
-            .then((response) => {
-              return response.json();
-            })
-            // Extracts and saves data to app state under 'students'
-            .then((data) => {
-              console.log(data);
-              this.updateInstruments(data)
-            })
-            // Displays error if API call is unsuccessful
-            .catch((err) => {
-              console.log("API fetch was unsuccessful");
-              console.log(err);
-            })
-    }
-
-  // Updates Instrument State
-    updateInstruments(data) {
-        const instruments = data;
-        this.setState({instruments: instruments})
-    }
-
-    render() {
-        return (
-            <Grid container spacing={3}>
-                {this.state.instruments.map((instrument)=>{
-                    return (
-                            <Grid item>
-                                <InstrumentCard data={instrument}/>
-                            </Grid>
-                    )
-                })}
-            </Grid>
-        );
-  }
+                <Route exact path="/" component={Homepage} />
+                <Route path="/usersettings" component={UserSettings} />
+                <Route path="/logout" component={Logout} />
+            </div>
+        </Router>
+    );
 }
 
 export default App;
