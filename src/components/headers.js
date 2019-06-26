@@ -38,7 +38,7 @@ export default function ButtonAppBar() {
                         <Link to="/usersettings">User Settings</Link>
                     </Button>
                     <Button color="inherit">
-                        <Link to="/logout">Logout</Link>
+                        <Link to="/login">Login</Link>
                     </Button>
                 </Toolbar>
             </AppBar>
