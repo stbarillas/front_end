@@ -11,11 +11,11 @@ class Homepage extends React.Component {
     }
 
     componentDidMount() {
-        this.apiCall()
+        this.apiInstrumentCall()
     }
 
     // Fetches API data
-    apiCall() {
+    apiInstrumentCall() {
         // API call function
         fetch('http://127.0.0.1:8000/instruments/?format=json')
         // Converts API response to json

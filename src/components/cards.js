@@ -35,10 +35,10 @@ function InstrumentCard(props) {
                 />
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary" onClick={joinWaitList}>
+                <Button size="small" color="primary" onClick={()=>joinWaitList(props)}>
                     Join Waitlist
                 </Button>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={()=>leaveWaitList(props)}>
                     Leave Waitlist
                 </Button>
             </CardActions>
@@ -47,13 +47,14 @@ function InstrumentCard(props) {
 }
 
 function joinWaitList(props) {
-    var url = 'http://127.0.0.1:8000/checklists/';
+    var url = 'http://127.0.0.1:8000/checklists/',
+        isoDate = new Date().toISOString();
     var data = {
         "user": 'http://127.0.0.1:8000/users/1/',
         "display_name": "steve barillas",
-        "instrument_pk": 2,
-        "created_date": "2019-06-25T04:48:05Z",
-        "ownership_date": "2019-06-25T04:48:05Z"
+        "instrument_pk": props.data.id,
+        "created_date": isoDate,
+        "ownership_date": isoDate,
     }
 
     fetch(url, {
@@ -61,6 +62,21 @@ function joinWaitList(props) {
         body: JSON.stringify(data), // data can be `string` or {object}!
         headers:{
             'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.json())
+        .then(response => console.log('Success:', JSON.stringify(response)))
+        .catch(error => console.error('Error Posting Checklist:', error));
+
+}
+
+function leaveWaitList(props) {
+    var url = 'http://127.0.0.1:8000/checklists/' + 27,
+        isoDate = new Date().toISOString();
+
+    fetch(url, {
+        method: 'DELETE', // or 'PUT'
+        headers:{
         }
     })
         .then(res => res.json())
