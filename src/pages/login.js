@@ -20,7 +20,22 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
+        const url = 'http://127.0.0.1:8000/api-token-auth/?username=stbarillas?password=xsw2!qAZ';
+        var data = {
+            "username": 'stbarillas',
+            "password": "xsw2!qAZ",
+        }
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token d8708a35be5cb39e0f2ad24c38d2f54c33887ea0'
+            }
+        })
+            .then(res => res.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .catch(error => console.error('Error Posting Checklist:', error));
         event.preventDefault();
     }
 
