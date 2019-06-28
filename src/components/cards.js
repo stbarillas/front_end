@@ -47,22 +47,24 @@ function InstrumentCard(props) {
 }
 
 function joinWaitList(props) {
-    var url = 'http://127.0.0.1:8000/checklist/',
-        isoDate = new Date().toISOString();
-    var data = {
-        "user": 'http://127.0.0.1:8000/users/1/',
-        "display_name": "steve barillas",
+    const url = 'http://127.0.0.1:8000/checklist/',
+        isoDate = new Date().toISOString(),
+        user_id = sessionStorage.getItem('user_id'),
+        full_name = sessionStorage.getItem('full_name');
+    const data = {
+        "user": 'http://127.0.0.1:8000/users/' + user_id + '/',
+        "display_name": full_name,
         "instrument_pk": props.data.id,
         "created_date": isoDate,
         "ownership_date": isoDate,
     }
-
+    console.log(sessionStorage.getItem('token'))
     fetch(url, {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(data), // data can be `string` or {object}!
         headers:{
             'Content-Type': 'application/json',
-            'Authorization': 'Token d8708a35be5cb39e0f2ad24c38d2f54c33887ea0'
+            'Authorization': 'Token ' + sessionStorage.getItem('token')
         }
     })
         .then(res => res.json())

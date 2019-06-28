@@ -30,11 +30,18 @@ class Login extends React.Component {
             body: JSON.stringify(data), // data can be `string` or {object}!
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Token d8708a35be5cb39e0f2ad24c38d2f54c33887ea0'
             }
         })
             .then(res => res.json())
-            .then(response => console.log('Success:', JSON.stringify(response)))
+            .then(response => {
+                // Saves token to sessionStorage
+                if (sessionStorage) {
+                    sessionStorage.setItem('token', response['token'])
+                    sessionStorage.setItem('user_id', response['user_id'])
+                    sessionStorage.setItem('full_name', response['full_name'])
+                    sessionStorage.setItem('email', response['email'])
+                }
+            })
             .catch(error => console.error('Error Posting Checklist:', error));
         event.preventDefault();
     }
