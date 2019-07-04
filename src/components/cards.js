@@ -51,14 +51,15 @@ function joinWaitList(props) {
         isoDate = new Date().toISOString(),
         user_id = sessionStorage.getItem('user_id'),
         full_name = sessionStorage.getItem('full_name');
+    console.log(user_id)
     const data = {
         "user": 'http://127.0.0.1:8000/users/' + user_id + '/',
+        "user_pk": user_id,
         "display_name": full_name,
         "instrument_pk": props.data.id,
         "created_date": isoDate,
         "ownership_date": isoDate,
     }
-    console.log(sessionStorage.getItem('token'))
     fetch(url, {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(data), // data can be `string` or {object}!
@@ -74,17 +75,46 @@ function joinWaitList(props) {
 }
 
 function leaveWaitList(props) {
-    var url = 'http://127.0.0.1:8000/checklists/' + 27,
-        isoDate = new Date().toISOString();
-
-    fetch(url, {
-        method: 'DELETE', // or 'PUT'
-        headers:{
+    fetch(
+        'http://127.0.0.1:8000/checklist/?format=json', {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + sessionStorage.getItem('token')
+            }
         }
-    })
-        .then(res => res.json())
-        .then(response => console.log('Success:', JSON.stringify(response)))
-        .catch(error => console.error('Error Posting Checklist:', error));
+    )
+    // Converts API response to json if response is ok
+        .then(res => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error(res.status);
+            }
+        })
+        // Extracts and saves data to app state under 'students'
+        .then((data) => {
+            console.log(data)
+        })
+        // Displays error if API call is unsuccessful
+        .catch((err) => {
+            console.log("API fetch was unsuccessful");
+            console.log(err);
+        })
+
+
+
+    // var url = 'http://127.0.0.1:8000/checklists/' + 27;
+    //     // isoDate = new Date().toISOString();
+    //
+    // fetch(url, {
+    //     method: 'DELETE', // or 'PUT'
+    //     headers:{
+    //     }
+    // })
+    //     .then(res => res.json())
+    //     .then(response => console.log('Success:', JSON.stringify(response)))
+    //     .catch(error => console.error('Error Posting Checklist:', error));
 
 }
 

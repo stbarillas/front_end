@@ -22,9 +22,8 @@ class Homepage extends React.Component {
             .then((response) => {
                 return response.json();
             })
-            // Extracts and saves data to app state under 'students'
+            // Extracts and saves data to app state under 'instruments'
             .then((data) => {
-                console.log(data);
                 this.updateInstruments(data)
             })
             // Displays error if API call is unsuccessful

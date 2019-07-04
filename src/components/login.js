@@ -1,4 +1,3 @@
-import {Route, Link } from "react-router-dom";
 import React from "react";
 
 class Login extends React.Component {
@@ -20,10 +19,10 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
-        const url = 'http://127.0.0.1:8000/api-token-auth/?username=stbarillas?password=xsw2!qAZ';
+        const url = 'http://127.0.0.1:8000/api-token-auth/';
         var data = {
-            "username": 'stbarillas',
-            "password": "xsw2!qAZ",
+            "username": this.state.username,
+            "password": this.state.password,
         }
         fetch(url, {
             method: 'POST', // or 'PUT'
@@ -32,17 +31,26 @@ class Login extends React.Component {
                 'Content-Type': 'application/json',
             }
         })
-            .then(res => res.json())
-            .then(response => {
-                // Saves token to sessionStorage
-                if (sessionStorage) {
-                    sessionStorage.setItem('token', response['token'])
-                    sessionStorage.setItem('user_id', response['user_id'])
-                    sessionStorage.setItem('full_name', response['full_name'])
-                    sessionStorage.setItem('email', response['email'])
+        // If response is ok, translate to json. Otherwise, throw Error
+            .then(res => {
+                if(res.ok){
+                    return res.json()
+                } else {
+                    throw new Error(res.status);
                 }
             })
-            .catch(error => console.error('Error Posting Checklist:', error));
+            .then(response => {
+                // Saves token to sessionStorage & passes up auth state to trigger rerender
+                console.log(response)
+                if (sessionStorage) {
+                    sessionStorage.setItem('token', response['token']);
+                    sessionStorage.setItem('user_id', response['user_id']);
+                    sessionStorage.setItem('full_name', response['full_name']);
+                    sessionStorage.setItem('email', response['email']);
+                    this.props.on_login();
+                }
+            })
+            .catch(error => console.error('API error:', error));
         event.preventDefault();
     }
 
@@ -57,7 +65,7 @@ class Login extends React.Component {
                     Password:
                     <input type="text" name={'password'} value={this.state.value} onChange={this.handleChange} />
                 </label>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit"/>
             </form>
         );
     }
