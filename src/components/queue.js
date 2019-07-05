@@ -1,12 +1,11 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 
-class Sandbox extends React.Component {
+class LeaveQueue extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
+            placeholder: '',
         };
 
     }
@@ -32,7 +31,7 @@ class Sandbox extends React.Component {
                 let filteredChecklist = response.filter(
                     (listEntry)=> {
                         const userId = String(listEntry.user_pk),
-                        instrumentId = listEntry.instrument_pk;
+                            instrumentId = listEntry.instrument_pk;
                         // Only returns checklist entries that match user pk
                         return userId.indexOf(sessionStorage.getItem('user_id')) !== -1;
                     })
@@ -68,11 +67,11 @@ class Sandbox extends React.Component {
 
     render() {
         return (
-            <div>
-                <Button onClick={this.handleClick}>Test Click</Button>
-            </div>
+            <Button size="small" color="primary" onClick={()=>this.handleClick}>
+                Leave Waitlist
+            </Button>
         );
     }
 }
 
-export default Sandbox
+export default LeaveQueue

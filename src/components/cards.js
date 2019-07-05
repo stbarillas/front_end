@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import LeaveQueue from './queue'
 
 const useStyles = makeStyles({
     card: {
@@ -75,46 +76,57 @@ function joinWaitList(props) {
 }
 
 function leaveWaitList(props) {
-    fetch(
-        'http://127.0.0.1:8000/checklist/?format=json', {
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization': 'Token ' + sessionStorage.getItem('token')
-            }
+    const url = 'http://127.0.0.1:8000/checklist/';
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + sessionStorage.getItem('token')
         }
-    )
-    // Converts API response to json if response is ok
-        .then(res => {
-            if(res.ok){
-                return res.json()
+    })
+    // If response is ok, translate to json. Otherwise, throw Error
+        .then(response => {
+            if(response.ok){
+                return response.json()
             } else {
-                throw new Error(res.status);
+                throw new Error(response.status);
             }
         })
-        // Extracts and saves data to app state under 'students'
-        .then((data) => {
-            console.log(data)
+        .then(response => {
+            let filteredChecklist = response.filter(
+                (listEntry)=> {
+                    const userId = String(listEntry.user_pk),
+                        instrumentId = String(listEntry.instrument_pk);
+                    // console.log(instrumentId)
+                    // Only returns checklist entries that match user pk and instrument pk
+                    return userId.indexOf(sessionStorage.getItem('user_id')) !== -1 &&
+                        instrumentId.indexOf(props.data.id) !== -1;
+                })
+            console.log(filteredChecklist)
+            return filteredChecklist
         })
-        // Displays error if API call is unsuccessful
-        .catch((err) => {
-            console.log("API fetch was unsuccessful");
-            console.log(err);
+        .then(entry => {
+            const id = entry[0].id,
+                url = 'http://127.0.0.1:8000/checklist/' + id + '/';
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + sessionStorage.getItem('token')
+                }
+            })
+            // If response is ok, translate to json. Otherwise, throw Error
+                .then(response => {
+                    if (response.ok) {
+                        return console.log('Success:', JSON.stringify(response));
+                    } else {
+                        throw new Error(response.status);
+                    }
+                })
+                .catch(error => console.error('API error:', error));
+
         })
-
-
-
-    // var url = 'http://127.0.0.1:8000/checklists/' + 27;
-    //     // isoDate = new Date().toISOString();
-    //
-    // fetch(url, {
-    //     method: 'DELETE', // or 'PUT'
-    //     headers:{
-    //     }
-    // })
-    //     .then(res => res.json())
-    //     .then(response => console.log('Success:', JSON.stringify(response)))
-    //     .catch(error => console.error('Error Posting Checklist:', error));
+        .catch(error => console.error('API error:', error));
 
 }
 
