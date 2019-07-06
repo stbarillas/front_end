@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {joinQueue, leaveQueue} from '../tasks/queue'
+import {getQueue, joinQueue, leaveQueue} from '../tasks/queue'
 
 const useStyles = makeStyles({
     card: {
@@ -39,7 +39,7 @@ function InstrumentCard(props) {
                 <Button size="small" color="primary" onClick={()=>joinQueue(props)}>
                     Join Waitlist
                 </Button>
-                <Button size="small" color="primary" onClick={()=>leaveQueue(props)}>
+                <Button size="small" color="primary" onClick={()=>leaveQueue(props, getQueue(props))}>
                     Leave Waitlist
                 </Button>
             </CardActions>
