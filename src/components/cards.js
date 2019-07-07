@@ -18,8 +18,12 @@ class InstrumentCard extends React.Component{
     }
     componentWillMount(){this.updateQueueState()}
 
-    handleOnClick() {
+    handleJoinQueue() {
         joinQueue(this.props).then(() => {this.updateQueueState()});
+    }
+
+    handleLeaveQueue() {
+        leaveQueue(this.props).then(()=>{this.updateQueueState()});
     }
 
     updateQueueState() {
@@ -68,10 +72,10 @@ class InstrumentCard extends React.Component{
                     {/*/>*/}
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={() => this.handleOnClick()}>
+                    <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
                         Join Waitlist
                     </Button>
-                    <Button size="small" color="primary" onClick={() => leaveQueue(this.props)}>
+                    <Button size="small" color="primary" onClick={() => this.handleLeaveQueue()}>
                         Leave Waitlist
                     </Button>
                 </CardActions>

@@ -24,60 +24,63 @@ const joinQueue = function(props) {
             .then(response => {
                 resolve(console.log('Success:', JSON.stringify(response)))
             })
-            .catch(error => reject(console.error('Error Posting Checklist:', error)));
+            .catch(error => (console.error('Error Posting Checklist:', error)));
     })
 }
 
-function leaveQueue(props) {
-    const url = 'http://127.0.0.1:8000/checklist/';
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Token ' + sessionStorage.getItem('token')
-        }
-    })
-    // If response is ok, translate to json. Otherwise, throw Error
-        .then(response => {
-            if (response.ok) {
-                return response.json()
-            } else {
-                throw new Error(response.status);
+const leaveQueue = function(props) {
+    return new Promise(function(resolve, reject) {
+        const url = 'http://127.0.0.1:8000/checklist/';
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + sessionStorage.getItem('token')
             }
         })
-        .then(response => {
-            let filteredChecklist = response.filter(
-                (listEntry) => {
-                    const userId = String(listEntry.user_pk),
-                        instrumentId = String(listEntry.instrument_pk);
-                    // Only returns checklist entries that match user pk and instrument pk
-                    return userId.indexOf(sessionStorage.getItem('user_id')) !== -1 &&
-                        instrumentId.indexOf(props.data.id) !== -1;
-                })
-            return filteredChecklist
-        })
-        .then(entry => {
-            const id = entry[0].id,
-                url = 'http://127.0.0.1:8000/checklist/' + id + '/';
-            fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Token ' + sessionStorage.getItem('token')
+        // If response is ok, translate to json. Otherwise, throw Error
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error(response.status);
                 }
             })
-            // If response is ok, translate to json. Otherwise, throw Error
-                .then(response => {
-                    if (response.ok) {
-                        return console.log('Success:', JSON.stringify(response));
-                    } else {
-                        throw new Error(response.status);
+            .then(response => {
+                let filteredChecklist = response.filter(
+                    (listEntry) => {
+                        const userId = String(listEntry.user_pk),
+                            instrumentId = String(listEntry.instrument_pk);
+                        // Only returns checklist entries that match user pk and instrument pk
+                        return userId.indexOf(sessionStorage.getItem('user_id')) !== -1 &&
+                            instrumentId.indexOf(props.data.id) !== -1;
+                    })
+                return filteredChecklist
+            })
+            .then(entry => {
+                const id = entry[0].id,
+                    url = 'http://127.0.0.1:8000/checklist/' + id + '/';
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Token ' + sessionStorage.getItem('token')
                     }
                 })
-                .catch(error => console.error('API error:', error));
+                // If response is ok, translate to json. Otherwise, throw Error
+                    .then(response => {
+                        if (response.ok) {
+                            resolve(console.log('Success:', JSON.stringify(response)));
+                        } else {
+                            throw new Error(response.status);
+                        }
+                    })
+                    .catch(error => console.error('API error:', error));
 
-        })
-        .catch(error => console.error('API error:', error));
+            })
+            .catch(error => console.error('API error:', error));
+    })
+
 }
 
 function getQueue(props) {
