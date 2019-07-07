@@ -26,12 +26,16 @@ function SimpleList(props) {
     return (
         <div className={classes.root}>
             <List component="nav" aria-label="Main mailbox folders">
-                <ListItem button>
-                    <ListItemText primary="Inbox" />
-                </ListItem>
+                {props.data.map((queueEntry, i )=>{return (
+                    <ListItem button>
+                        <ListItemText primary={ (i + 1) + '. ' + queueEntry.display_name} />
+                    </ListItem>
+                )})}
+
             </List>
         </div>
     );
 }
+
 
 export default SimpleList
