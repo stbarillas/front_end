@@ -19,8 +19,7 @@ class InstrumentCard extends React.Component{
     componentWillMount(){this.updateQueueState()}
 
     handleOnClick() {
-        joinQueue(this.props);
-        this.updateQueueState();
+        joinQueue(this.props).then(() => {this.updateQueueState()});
     }
 
     updateQueueState() {

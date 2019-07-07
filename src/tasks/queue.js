@@ -1,33 +1,34 @@
-function joinQueue(props) {
-    const url = 'http://127.0.0.1:8000/checklist/',
-        isoDate = new Date().toISOString(),
-        user_id = sessionStorage.getItem('user_id'),
-        full_name = sessionStorage.getItem('full_name');
-    const data = {
-        "user": 'http://127.0.0.1:8000/users/' + user_id + '/',
-        "user_pk": user_id,
-        "display_name": full_name,
-        "instrument_pk": props.data.id,
-        "created_date": isoDate,
-        "ownership_date": isoDate,
-    }
-    fetch(url, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(data), // data can be `string` or {object}!
-        headers:{
-            'Content-Type': 'application/json',
-            'Authorization': 'Token ' + sessionStorage.getItem('token')
+const joinQueue = function(props) {
+    return new Promise(function(resolve, reject) {
+        const url = 'http://127.0.0.1:8000/checklist/',
+            isoDate = new Date().toISOString(),
+            user_id = sessionStorage.getItem('user_id'),
+            full_name = sessionStorage.getItem('full_name');
+        const data = {
+            "user": 'http://127.0.0.1:8000/users/' + user_id + '/',
+            "user_pk": user_id,
+            "display_name": full_name,
+            "instrument_pk": props.data.id,
+            "created_date": isoDate,
+            "ownership_date": isoDate,
         }
-    })
-        .then(res => res.json())
-        .then(response => {
-            console.log('Success:', JSON.stringify(response))
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + sessionStorage.getItem('token')
+            }
         })
-        .catch(error => console.error('Error Posting Checklist:', error));
-
+            .then(res => res.json())
+            .then(response => {
+                resolve(console.log('Success:', JSON.stringify(response)))
+            })
+            .catch(error => reject(console.error('Error Posting Checklist:', error)));
+    })
 }
 
-function leaveQueue(props, callback) {
+function leaveQueue(props) {
     const url = 'http://127.0.0.1:8000/checklist/';
     fetch(url, {
         method: 'GET',
