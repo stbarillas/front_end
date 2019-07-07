@@ -47,7 +47,6 @@ class InstrumentCard extends React.Component{
                         // Only returns checklist entries that match user pk and instrument pk
                         return instrumentId.indexOf(this.props.data.id) !== -1;
                     });
-                console.log(filteredChecklist);
                 this.setState({queue: filteredChecklist})
             })
             .catch(error => console.error('API error:', error));

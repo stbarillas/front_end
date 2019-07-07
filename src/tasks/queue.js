@@ -3,7 +3,6 @@ function joinQueue(props) {
         isoDate = new Date().toISOString(),
         user_id = sessionStorage.getItem('user_id'),
         full_name = sessionStorage.getItem('full_name');
-    console.log(user_id)
     const data = {
         "user": 'http://127.0.0.1:8000/users/' + user_id + '/',
         "user_pk": user_id,
@@ -21,7 +20,9 @@ function joinQueue(props) {
         }
     })
         .then(res => res.json())
-        .then(response => console.log('Success:', JSON.stringify(response)))
+        .then(response => {
+            console.log('Success:', JSON.stringify(response))
+        })
         .catch(error => console.error('Error Posting Checklist:', error));
 
 }
