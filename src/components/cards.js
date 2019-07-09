@@ -1,6 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { withStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -58,6 +56,23 @@ class InstrumentCard extends React.Component{
     }
 
     render () {
+        const is_auth = this.props.is_auth;
+        let login, logout;
+        if(is_auth){
+            login = <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
+                Join Waitlist
+                </Button>
+            logout = <Button size="small" color="primary" onClick={() => this.handleLeaveQueue()}>
+                Leave Waitlist
+                </Button>
+        } else {
+            login = <Button size="small" color="primary" disabled >
+                Join Waitlist
+            </Button>
+            logout = <Button size="small" color="primary" disabled>
+                Leave Waitlist
+            </Button>
+        }
         return (
             <Card>
                 <CardActionArea>
@@ -75,12 +90,8 @@ class InstrumentCard extends React.Component{
                     }
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
-                        Join Waitlist
-                    </Button>
-                    <Button size="small" color="primary" onClick={() => this.handleLeaveQueue()}>
-                        Leave Waitlist
-                    </Button>
+                    {login}
+                    {logout}
                 </CardActions>
             </Card>
         )

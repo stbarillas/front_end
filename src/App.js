@@ -33,7 +33,7 @@ class App extends React.Component{
                         on_logout={()=> this.handleLogout()}
                         is_auth={this.state.auth}
                     />
-                    <Route exact path="/" component={Homepage}/>
+                    <Route exact path="/" render={(props) => <Homepage is_auth={this.state.auth}/>}/>
                     <Route path="/usersettings" component={UserSettings}/>
                 </div>
             </Router>

@@ -45,7 +45,7 @@ class Homepage extends React.Component {
                 {this.state.instruments.map((instrument)=>{
                     return (
                         <Grid item>
-                            <InstrumentCard data={instrument}/>
+                            <InstrumentCard data={instrument} is_auth={this.props.is_auth} />
                         </Grid>
                     )
                 })}
