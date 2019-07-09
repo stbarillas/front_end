@@ -1,4 +1,6 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -64,12 +66,13 @@ class InstrumentCard extends React.Component{
                             {this.props.data.instrument_name}
                         </Typography>
                     </CardContent>
-                    <SimpleList data={this.state.queue}/>
-                    {/*<CardMedia*/}
-                    {/*    className={classes.media}*/}
-                    {/*    image={props.data.instrument_image}*/}
-                    {/*    title="Hello World"*/}
-                    {/*/>*/}
+                    {this.state.queue.length===0 ?
+                        <CardMedia
+                            image={this.props.data.instrument_image}
+                            title="Hello World" style={{"height" : "200px"}}
+                        />
+                        : <SimpleList data={this.state.queue}/>
+                    }
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
@@ -84,4 +87,4 @@ class InstrumentCard extends React.Component{
     };
 }
 
-export default InstrumentCard;
+export default (InstrumentCard);
