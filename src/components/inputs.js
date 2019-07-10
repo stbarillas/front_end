@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function TextFields() {
+export default function TextFields(props) {
     const classes = useStyles();
     const [values, setValues] = React.useState({
         name: 'Cat in the Hat',
@@ -32,14 +32,14 @@ export default function TextFields() {
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
-
+    const data = props.userData[0];
     return (
         <form className={classes.container} noValidate autoComplete="off">
             <TextField
                 id="standard-name"
                 label="Username"
                 className={classes.textField}
-                value={values.name}
+                value={data.firstName}
                 onChange={handleChange('name')}
                 margin="normal"
             />
@@ -47,7 +47,7 @@ export default function TextFields() {
                 id="standard-name"
                 label="First Name"
                 className={classes.textField}
-                value={values.name}
+                value={data.firstName}
                 onChange={handleChange('name')}
                 margin="normal"
             />
@@ -55,7 +55,7 @@ export default function TextFields() {
                 id="standard-name"
                 label="Last Name"
                 className={classes.textField}
-                value={values.name}
+                value={data.lastName}
                 onChange={handleChange('name')}
                 margin="normal"
             />
@@ -63,7 +63,7 @@ export default function TextFields() {
                 id="standard-name"
                 label="Email"
                 className={classes.textField}
-                value={values.name}
+                value={data.email}
                 onChange={handleChange('name')}
                 margin="normal"
             />

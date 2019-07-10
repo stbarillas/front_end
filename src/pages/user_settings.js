@@ -5,36 +5,28 @@ class UserSettings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: [],
+            userData: [],
         }
     }
 
-    componentDidMount() {
-        this.apiInstrumentCall()
+    updateUserData(){
+        let name  = sessionStorage.getItem('full_name'),
+            firstName = name.split(' ')[0],
+            lastName = name.split(' ')[1],
+            email = sessionStorage.getItem('email'),
+            output = [
+                {'firstName':firstName, 'lastName':lastName, 'email':email}
+            ]
+        this.setState({userData: output})
     }
 
-    // Fetches API data
-    apiInstrumentCall() {
-        // API call function
-        fetch('http://127.0.0.1:8000/instruments/?format=json')
-        // Converts API response to json
-            .then((response) => {
-                return response.json();
-            })
-            // Extracts and saves data to app state under 'instruments'
-            .then((data) => {
-                this.updateInstruments(data)
-            })
-            // Displays error if API call is unsuccessful
-            .catch((err) => {
-                console.log("API fetch was unsuccessful");
-                console.log(err);
-            })
+    componentWillMount() {
+        this.updateUserData();
     }
 
     render() {
         return (
-            <TextFields/>
+            <TextFields userData={this.state.userData}/>
         );
     }
 }
