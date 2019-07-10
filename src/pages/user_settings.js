@@ -16,7 +16,7 @@ class UserSettings extends React.Component {
             email = sessionStorage.getItem('email'),
             output = [
                 {'firstName':firstName, 'lastName':lastName, 'email':email}
-            ]
+            ];
         this.setState({userData: output})
     }
 

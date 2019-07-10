@@ -45,6 +45,7 @@ class Login extends React.Component {
                 if (sessionStorage) {
                     sessionStorage.setItem('token', response['token']);
                     sessionStorage.setItem('user_id', response['user_id']);
+                    sessionStorage.setItem('username', this.state.username)
                     sessionStorage.setItem('full_name', response['full_name']);
                     sessionStorage.setItem('email', response['email']);
                     this.props.on_login();

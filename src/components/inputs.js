@@ -22,49 +22,40 @@ const useStyles = makeStyles(theme => ({
 
 export default function TextFields(props) {
     const classes = useStyles();
+    const data = props.userData[0];
     const [values, setValues] = React.useState({
-        name: 'Cat in the Hat',
-        age: '',
-        multiline: 'Controlled',
-        currency: 'EUR',
+        firstName: data.firstName,
+        LastName: data.lastName,
+        email: data.email,
     });
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
-    const data = props.userData[0];
     return (
         <form className={classes.container} noValidate autoComplete="off">
             <TextField
                 id="standard-name"
-                label="Username"
-                className={classes.textField}
-                value={data.firstName}
-                onChange={handleChange('name')}
-                margin="normal"
-            />
-            <TextField
-                id="standard-name"
                 label="First Name"
                 className={classes.textField}
-                value={data.firstName}
-                onChange={handleChange('name')}
+                value={values.firstName}
+                onChange={handleChange('firstName')}
                 margin="normal"
             />
             <TextField
                 id="standard-name"
                 label="Last Name"
                 className={classes.textField}
-                value={data.lastName}
-                onChange={handleChange('name')}
+                value={values.LastName}
+                onChange={handleChange('LastName')}
                 margin="normal"
             />
             <TextField
                 id="standard-name"
                 label="Email"
                 className={classes.textField}
-                value={data.email}
-                onChange={handleChange('name')}
+                value={values.email}
+                onChange={handleChange('email')}
                 margin="normal"
             />
         </form>
