@@ -57,19 +57,19 @@ class InstrumentCard extends React.Component{
 
     render () {
         const is_auth = this.props.is_auth;
-        let login, logout;
+        let joinButton, leaveButton;
         if(is_auth){
-            login = <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
+            joinButton = <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
                 Join Waitlist
                 </Button>
-            logout = <Button size="small" color="primary" onClick={() => this.handleLeaveQueue()}>
+            leaveButton = <Button size="small" color="primary" onClick={() => this.handleLeaveQueue()}>
                 Leave Waitlist
                 </Button>
         } else {
-            login = <Button size="small" color="primary" disabled >
+            joinButton = <Button size="small" color="primary" disabled >
                 Join Waitlist
             </Button>
-            logout = <Button size="small" color="primary" disabled>
+            leaveButton = <Button size="small" color="primary" disabled>
                 Leave Waitlist
             </Button>
         }
@@ -90,8 +90,8 @@ class InstrumentCard extends React.Component{
                     }
                 </CardActionArea>
                 <CardActions>
-                    {login}
-                    {logout}
+                    {joinButton}
+                    {leaveButton}
                 </CardActions>
             </Card>
         )
