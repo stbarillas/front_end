@@ -38,11 +38,8 @@ class LeaveQueue extends React.Component {
                 return filteredChecklist
             })
             .then(entry => {
-                console.log(entry)
                 const id = entry[0].id,
                     url = 'http://127.0.0.1:8000/checklist/' + id + '/';
-                console.log(id)
-                console.log(url)
                 fetch(url, {
                     method: 'DELETE',
                     headers: {
