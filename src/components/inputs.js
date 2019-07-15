@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import SimpleSnackbar from './snackbar'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     menu: {
         width: 200,
     },
+    close: {
+        padding: theme.spacing(0.5),
+    },
 }));
 
 export default function TextFields(props) {
@@ -25,9 +29,12 @@ export default function TextFields(props) {
     const data = props.userData[0];
     const [values, setValues] = React.useState({
         firstName: data.firstName,
-        LastName: data.lastName,
+        lastName: data.lastName,
         email: data.email,
     });
+
+    console.log(values.firstName + values.lastName + values.email)
+    const [open, setOpen] = React.useState(false);
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
@@ -36,8 +43,8 @@ export default function TextFields(props) {
     const handleSubmit = event => {
         const id = sessionStorage.getItem('user_id'),
             submitData = {
-                'firstName': values.firstName,
-                'lastName' : values.LastName,
+                'first_name': values.firstName,
+                'last_name' : values.lastName,
                 'email' : values.email
             },
             url = 'http://127.0.0.1:8000/users/' + id +'/';
@@ -61,42 +68,55 @@ export default function TextFields(props) {
             .then(response => {
                 // Saves token to sessionStorage & passes up auth state to trigger rerender
                 if (sessionStorage) {
-                    sessionStorage.setItem('full_name', values.firstName + ' ' + values.LastName);
+                    sessionStorage.setItem('full_name', values.firstName + ' ' + values.lastName);
                     sessionStorage.setItem('email', values.email);
                     console.log('user sessionStorage update successful')
+                    setOpen(true);
                 }
             })
             .catch(error => console.error('API error:', error));
         event.preventDefault();
     }
 
+    function handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    }
+
     return (
-        <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
-            <TextField
-                id="standard-name"
-                label="First Name"
-                className={classes.textField}
-                value={values.firstName}
-                onChange={handleChange('firstName')}
-                margin="normal"
-            />
-            <TextField
-                id="standard-name"
-                label="Last Name"
-                className={classes.textField}
-                value={values.LastName}
-                onChange={handleChange('LastName')}
-                margin="normal"
-            />
-            <TextField
-                id="standard-name"
-                label="Email"
-                className={classes.textField}
-                value={values.email}
-                onChange={handleChange('email')}
-                margin="normal"
-            />
-            <input type="submit" value="Submit"/>
-        </form>
+        <div>
+            <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <TextField
+                    id="standard-name"
+                    label="First Name"
+                    className={classes.textField}
+                    value={values.firstName}
+                    onChange={handleChange('firstName')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="Last Name"
+                    className={classes.textField}
+                    value={values.lastName}
+                    onChange={handleChange('lastName')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="Email"
+                    className={classes.textField}
+                    value={values.email}
+                    onChange={handleChange('email')}
+                    margin="normal"
+                />
+                <input type="submit" value="Submit"/>
+            </form>
+            <SimpleSnackbar open={open} handleClose={()=>handleClose()}/>
+        </div>
     );
 }
+

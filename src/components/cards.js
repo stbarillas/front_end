@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {joinQueue, leaveQueue} from '../tasks/queue'
 import SimpleList from './lists'
+import './cards.css'
 
 class InstrumentCard extends React.Component{
     constructor(props) {
@@ -77,9 +78,15 @@ class InstrumentCard extends React.Component{
             <Card>
                 <CardActionArea>
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {this.props.data.instrument_name}
-                        </Typography>
+                        {this.state.queue.length===0 ?
+                            <Typography gutterBottom variant="h5" component="h2" className={'available'}>
+                                {this.props.data.instrument_name}
+                            </Typography>
+                            : <Typography gutterBottom variant="h5" component="h2" className={'inuse'}>
+                                {this.props.data.instrument_name}
+                            </Typography>
+                        }
+
                     </CardContent>
                     {this.state.queue.length===0 ?
                         <CardMedia

@@ -1,0 +1,7 @@
+.available {
+    background: green;
+}
+
+.inuse {
+    background: orange;
+}
