@@ -58,22 +58,13 @@ class InstrumentCard extends React.Component{
 
     render () {
         const is_auth = this.props.is_auth;
-        let joinButton, leaveButton;
-        if(is_auth){
-            joinButton = <Button size="small" color="primary" onClick={() => this.handleJoinQueue()}>
-                Join Waitlist
-                </Button>
-            leaveButton = <Button size="small" color="primary" onClick={() => this.handleLeaveQueue()}>
-                Leave Waitlist
-                </Button>
-        } else {
-            joinButton = <Button size="small" color="primary" disabled >
-                Join Waitlist
-            </Button>
-            leaveButton = <Button size="small" color="primary" disabled>
-                Leave Waitlist
-            </Button>
+        let joinButton, leaveButton, opts = {};
+
+        // If not authenticated, attribute disabled is added
+        if (!is_auth) {
+            opts['disabled'] = 'disabled';
         }
+
         return (
             <Card>
                 <CardActionArea>
@@ -97,8 +88,12 @@ class InstrumentCard extends React.Component{
                     }
                 </CardActionArea>
                 <CardActions>
-                    {joinButton}
-                    {leaveButton}
+                    <Button size="small" color="primary" {...opts} onClick={() => this.handleJoinQueue()}>
+                        Join Waitlist
+                    </Button>
+                    <Button size="small" color="primary" {...opts} onClick={() => this.handleLeaveQueue()}>
+                        Leave Waitlist
+                    </Button>
                 </CardActions>
             </Card>
         )
