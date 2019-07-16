@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SimpleSnackbar(props) {
+function SimpleSnackbar(props) {
     const classes = useStyles();
 
     return (
@@ -43,3 +43,5 @@ export default function SimpleSnackbar(props) {
         </div>
     );
 }
+
+export {SimpleSnackbar}

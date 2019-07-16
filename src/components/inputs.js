@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import SimpleSnackbar from './snackbar'
+import {SimpleSnackbar} from './snackbar'
 
 const useStyles = makeStyles(theme => ({
     container: {

@@ -15,6 +15,7 @@ class InstrumentCard extends React.Component{
         super(props);
         this.state = {
             queue: [],
+            userJoined: false,
         }
     }
     componentWillMount(){this.updateQueueState()}
@@ -45,24 +46,57 @@ class InstrumentCard extends React.Component{
                 }
             })
             .then(response => {
+                // Loop through queue and return entries for current instrument only
                 let filteredChecklist = response.filter(
                     (listEntry) => {
                         const instrumentId = String(listEntry.instrument_pk);
-                        // Only returns checklist entries that match user pk and instrument pk
+                        // Only returns checklist entries that match instrument pk
                         return instrumentId.indexOf(this.props.data.id) !== -1;
                     });
                 this.setState({queue: filteredChecklist})
+                return filteredChecklist
+            })
+            .then(response => {
+                let filteredChecklist = response.filter(
+                    (listEntry) => {
+                        const userPk = String(listEntry.user_pk),
+                        currentUserId = sessionStorage.getItem('user_id');
+                        // Only returns checklist entries that match user pk
+                        return userPk.indexOf(currentUserId) !== -1;
+                    });
+                // If current user is present in queue, set userJoined to true
+                if(filteredChecklist.length !==0) {
+                    this.setState({userJoined: true})
+                // If current user is not in queue, set userJoined to false
+                } else {
+                    this.setState({userJoined: false})
+                }
             })
             .catch(error => console.error('API error:', error));
     }
 
     render () {
-        const is_auth = this.props.is_auth;
-        let joinButton, leaveButton, opts = {};
+        const is_auth = this.props.is_auth,
+        alreadyJoined = this.state.userJoined;
+        let opts = {},
+        button;
 
-        // If not authenticated, attribute disabled is added
+        // If not authenticated, disabled is added to dynamic attribute
         if (!is_auth) {
             opts['disabled'] = 'disabled';
+        }
+
+        if (alreadyJoined) {
+            button =
+                <Button size="small" color="primary" {...opts} onClick={() => this.handleLeaveQueue()}>
+                    Leave Waitlist
+                </Button>
+        }else {
+            button = (
+                <Button size="small" color="primary" {...opts} onClick={() => this.handleJoinQueue()}>
+                    Join Waitlist
+                </Button>
+            )
         }
 
         return (
@@ -88,12 +122,7 @@ class InstrumentCard extends React.Component{
                     }
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary" {...opts} onClick={() => this.handleJoinQueue()}>
-                        Join Waitlist
-                    </Button>
-                    <Button size="small" color="primary" {...opts} onClick={() => this.handleLeaveQueue()}>
-                        Leave Waitlist
-                    </Button>
+                    {button}
                 </CardActions>
             </Card>
         )
