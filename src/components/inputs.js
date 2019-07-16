@@ -45,7 +45,7 @@ export default function TextFields(props) {
             submitData = {
                 'first_name': values.firstName,
                 'last_name' : values.lastName,
-                'email' : values.email
+                'email' : values.email,
             },
             url = 'http://127.0.0.1:8000/users/' + id +'/';
         console.log(id)
