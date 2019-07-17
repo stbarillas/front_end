@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Homepage from './pages/homepage'
 import UserSettings from './pages/user_settings'
+import Register from './pages/register'
 import ButtonAppBar from './components/headers'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -38,6 +39,7 @@ class App extends React.Component{
                         render={(props) => <Homepage is_auth={this.state.auth}/>}
                     />
                     <Route path="/usersettings" component={UserSettings}/>
+                    <Route path="/register" component={Register}/>
                 </div>
             </Router>
         );

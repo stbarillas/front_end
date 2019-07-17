@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function TextFields(props) {
+function TextFields(props) {
     const classes = useStyles();
     const data = props.userData[0];
     const [values, setValues] = React.useState({
@@ -33,7 +33,6 @@ export default function TextFields(props) {
         email: data.email,
     });
 
-    console.log(values.firstName + values.lastName + values.email)
     const [open, setOpen] = React.useState(false);
 
     const handleChange = name => event => {
@@ -48,7 +47,6 @@ export default function TextFields(props) {
                 'email' : values.email,
             },
             url = 'http://127.0.0.1:8000/users/' + id +'/';
-        console.log(id)
         fetch(url, {
             method: 'PATCH', // or 'PUT'
             body: JSON.stringify(submitData), // data can be `string` or {object}!
@@ -120,3 +118,106 @@ export default function TextFields(props) {
     );
 }
 
+function RegisterFields() {
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        username: '',
+        password: '',
+    });
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value });
+    };
+
+    const handleSubmit = event => {
+        const submitData = {
+            'first_name': values.firstName,
+            'last_name' : values.lastName,
+            'email' : values.email,
+            'username' : values.username,
+            'password': values.password
+        },
+        url = 'http://127.0.0.1:8000/users/';
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(submitData), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => {
+                if(res.ok){
+                    console.log('user created in database')
+                    return res.json
+                } else {
+                    throw new Error(res.status);
+                }
+            })
+            .catch(error => console.error('API error:', error));
+        event.preventDefault();
+    }
+
+    function handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    }
+
+    return (
+        <div>
+            <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <TextField
+                    id="standard-name"
+                    label="Username"
+                    className={classes.textField}
+                    value={values.username}
+                    onChange={handleChange('username')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="Password"
+                    className={classes.textField}
+                    value={values.password}
+                    onChange={handleChange('password')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="First Name"
+                    className={classes.textField}
+                    value={values.firstName}
+                    onChange={handleChange('firstName')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="Last Name"
+                    className={classes.textField}
+                    value={values.lastName}
+                    onChange={handleChange('lastName')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="Email"
+                    className={classes.textField}
+                    value={values.email}
+                    onChange={handleChange('email')}
+                    margin="normal"
+                />
+                <input type="submit" value="Submit"/>
+            </form>
+            <SimpleSnackbar open={open} handleClose={()=>handleClose()}/>
+        </div>
+    );
+}
+
+export {TextFields, RegisterFields}

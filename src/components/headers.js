@@ -23,6 +23,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function ButtonAppBar(props) {
     const classes = useStyles();
+    let button;
+
+    if (props.is_auth) {
+        button = <Logout on_logout={()=>props.on_logout()}/>
+    }else {
+        button = (
+            <span>
+                <Login on_login={()=>props.on_login()}/>
+                <Button color="inherit">
+                    <Link to="/register">register</Link>
+                </Button>
+            </span>
+        )
+    }
 
     return (
         <div className={classes.root}>
@@ -34,9 +48,12 @@ export default function ButtonAppBar(props) {
                     <Button color="inherit">
                         <Link to="/usersettings">User Settings</Link>
                     </Button>
-                    {/*Toggles between Login and Logout Components*/}
-                    {props.is_auth ? <Logout on_logout={()=>props.on_logout()}/> : <Login on_login={()=>props.on_login()}/>}
-                    <Sandbox/>
+                    {button}
+                    {/*/!*Toggles between Login and Logout Components*!/*/}
+                    {/*{props.is_auth ? <Logout on_logout={()=>props.on_logout()}/> : <Login on_login={()=>props.on_login()}/>}*/}
+                    {/*<Button color="inherit">*/}
+                    {/*    <Link to="/register">register</Link>*/}
+                    {/*</Button>*/}
                 </Toolbar>
             </AppBar>
         </div>

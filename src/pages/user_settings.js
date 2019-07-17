@@ -1,5 +1,5 @@
 import React from "react";
-import TextFields from "../components/inputs.js"
+import {TextFields} from "../components/inputs.js"
 
 class UserSettings extends React.Component {
     constructor(props) {
