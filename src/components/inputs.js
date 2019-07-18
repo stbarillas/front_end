@@ -220,4 +220,219 @@ function RegisterFields() {
     );
 }
 
-export {TextFields, RegisterFields}
+function EditInstrumentFields(props) {
+    console.log(props)
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        instrument_type : '',
+        instrument_status :'',
+        ip_address :'',
+        ip_address_2 :'',
+        instrument_name :'',
+        instrument_image :'',
+        instrument_current_owner : '',
+        instrument_connection : '',
+        instrument_detector_1 : '',
+        instrument_detector_2 : '',
+        instrument_detector_3 : '',
+        instrument_sampler_1 : '',
+        instrument_sampler_2 : '',
+        instrument_pump : '',
+        instrument_column_compartment : '',
+    });
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value });
+    };
+
+    const handleSubmit = event => {
+        const id = sessionStorage.getItem('user_id'),
+            submitData = {
+                'instrument_type' : values.instrument_type,
+                'instrument_status' :values.instrument_status,
+                'ip_address' : values.ip_address,
+                'ip_address_2' :values.ip_address_2,
+                'instrument_name' :values.instrument_name,
+                'instrument_image' :values.instrument_image,
+                'instrument_current_owner' : values.instrument_current_owner,
+                'instrument_connection' : values.instrument_connection,
+                'instrument_detector_1' : values.instrument_detector_1,
+                'instrument_detector_2' : values.instrument_detector_2,
+                'instrument_detector_3' : values.instrument_detector_3,
+                'instrument_sampler_1' : values.instrument_sampler_1,
+                'instrument_sampler_2' : values.instrument_sampler_2,
+                'instrument_pump' : values.instrument_pump,
+                'instrument_column_compartment' : values.instrument_column_compartment,
+            },
+            url = 'http://127.0.0.1:8000/edit_instrument/';
+        fetch(url, {
+            method: 'PATCH', // or 'PUT'
+            body: JSON.stringify(submitData), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + sessionStorage.getItem('token')
+            }
+        })
+            .then(res => {
+                if(res.ok){
+                    console.log('user database entry update successful')
+                    return res.json
+                } else {
+                    throw new Error(res.status);
+                }
+            })
+            .then(response => {
+                // Saves token to sessionStorage & passes up auth state to trigger rerender
+                if (sessionStorage) {
+                    sessionStorage.setItem('full_name', values.firstName + ' ' + values.lastName);
+                    sessionStorage.setItem('email', values.email);
+                    console.log('Instrument update successful')
+                    setOpen(true);
+                }
+            })
+            .catch(error => console.error('API error:', error));
+        event.preventDefault();
+    }
+
+    function handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    }
+
+    return (
+        <div>
+            <form className={classes.container} noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <TextField
+                    id="standard-name"
+                    label="instrument_type"
+                    className={classes.textField}
+                    value={values.instrument_status}
+                    onChange={handleChange('instrument_type')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_status"
+                    className={classes.textField}
+                    value={values.instrument_status}
+                    onChange={handleChange('instrument_status')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="ip_address"
+                    className={classes.textField}
+                    value={values.ip_address}
+                    onChange={handleChange('ip_address')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="ip_address_2"
+                    className={classes.textField}
+                    value={values.ip_address_2}
+                    onChange={handleChange('ip_address_2')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_name"
+                    className={classes.textField}
+                    value={values.instrument_name}
+                    onChange={handleChange('instrument_name')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_image"
+                    className={classes.textField}
+                    value={values.instrument_image}
+                    onChange={handleChange('instrument_image')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_current_owner"
+                    className={classes.textField}
+                    value={values.instrument_current_owner}
+                    onChange={handleChange('instrument_current_owner')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_connection"
+                    className={classes.textField}
+                    value={values.instrument_connection}
+                    onChange={handleChange('instrument_connection')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_detector_1"
+                    className={classes.textField}
+                    value={values.instrument_detector_1}
+                    onChange={handleChange('instrument_detector_1')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_detector_2"
+                    className={classes.textField}
+                    value={values.instrument_detector_2}
+                    onChange={handleChange('instrument_detector_2')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_detector_3"
+                    className={classes.textField}
+                    value={values.instrument_detector_3}
+                    onChange={handleChange('instrument_detector_3')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_sampler_1"
+                    className={classes.textField}
+                    value={values.instrument_sampler_1}
+                    onChange={handleChange('instrument_sampler_1')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_sampler_2"
+                    className={classes.textField}
+                    value={values.instrument_sampler_2}
+                    onChange={handleChange('instrument_sampler_2')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_pump"
+                    className={classes.textField}
+                    value={values.instrument_pump}
+                    onChange={handleChange('instrument_pump')}
+                    margin="normal"
+                />
+                <TextField
+                    id="standard-name"
+                    label="instrument_column_compartment"
+                    className={classes.textField}
+                    value={values.instrument_column_compartment}
+                    onChange={handleChange('instrument_column_compartment')}
+                    margin="normal"
+                />
+                <input type="submit" value="Submit"/>
+            </form>
+            <SimpleSnackbar open={open} handleClose={()=>handleClose()}/>
+        </div>
+    );
+}
+
+export {TextFields, RegisterFields, EditInstrumentFields}
+

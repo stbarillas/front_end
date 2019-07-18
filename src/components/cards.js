@@ -9,6 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import {joinQueue, leaveQueue} from '../tasks/queue'
 import SimpleList from './lists'
 import './cards.css'
+import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import ButtonAppBar from "./headers";
+import Homepage from "../pages/homepage";
+import UserSettings from "../pages/user_settings";
+import Register from "../pages/register";
+import EditInstrument from "../pages/edit_instrument";
+
 
 class InstrumentCard extends React.Component{
     constructor(props) {
@@ -79,7 +86,7 @@ class InstrumentCard extends React.Component{
         const is_auth = this.props.is_auth,
         alreadyJoined = this.state.userJoined;
         let opts = {},
-        button;
+        button_one, button_two;
 
         // If not authenticated, disabled is added to dynamic attribute
         if (!is_auth) {
@@ -87,14 +94,29 @@ class InstrumentCard extends React.Component{
         }
 
         if (alreadyJoined) {
-            button =
+            button_one = (
                 <Button size="small" color="primary" {...opts} onClick={() => this.handleLeaveQueue()}>
                     Leave Waitlist
                 </Button>
+            );
+            button_two = (
+                <Button size="small" color="primary" {...opts} onClick={() => this.handleLeaveQueue()}>
+                    Edit
+                </Button>
+            )
+
         }else {
-            button = (
+            button_one = (
                 <Button size="small" color="primary" {...opts} onClick={() => this.handleJoinQueue()}>
                     Join Waitlist
+                </Button>
+            )
+            button_two = (
+                <Button size="small" color="primary" {...opts}>
+                    <Link to={{
+                        pathname :'/edit_instrument',
+                        state: { foo: 'bar'}
+                    }}>Edit</Link>
                 </Button>
             )
         }
@@ -122,8 +144,10 @@ class InstrumentCard extends React.Component{
                     }
                 </CardActionArea>
                 <CardActions>
-                    {button}
+                    {button_one}
+                    {button_two}
                 </CardActions>
+
             </Card>
         )
     };

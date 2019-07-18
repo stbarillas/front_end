@@ -3,8 +3,10 @@ import './App.css';
 import Homepage from './pages/homepage'
 import UserSettings from './pages/user_settings'
 import Register from './pages/register'
+// import EditInstrument from './pages/edit_instrument'
 import ButtonAppBar from './components/headers'
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import EditInstrument from "./pages/edit_instrument";
 
 class App extends React.Component{
     constructor(props) {
@@ -40,6 +42,8 @@ class App extends React.Component{
                     />
                     <Route path="/usersettings" component={UserSettings}/>
                     <Route path="/register" component={Register}/>
+                    <Route path="/edit_instrument" component={EditInstrument}/> }
+                    />
                 </div>
             </Router>
         );
