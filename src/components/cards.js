@@ -86,7 +86,18 @@ class InstrumentCard extends React.Component{
         const is_auth = this.props.is_auth,
         alreadyJoined = this.state.userJoined;
         let opts = {},
-        button_one, button_two;
+        button_one, edit_button;
+
+        edit_button = (
+            <Button size="small" color="primary" {...opts}>
+                <Link
+                    to={{
+                        pathname: "/edit_instrument",
+                        state: { data: this.props.data }
+                    }}
+                >Edit </Link>
+            </Button>
+        )
 
         // If not authenticated, disabled is added to dynamic attribute
         if (!is_auth) {
@@ -99,24 +110,11 @@ class InstrumentCard extends React.Component{
                     Leave Waitlist
                 </Button>
             );
-            button_two = (
-                <Button size="small" color="primary" {...opts} onClick={() => this.handleLeaveQueue()}>
-                    Edit
-                </Button>
-            )
 
         }else {
             button_one = (
                 <Button size="small" color="primary" {...opts} onClick={() => this.handleJoinQueue()}>
                     Join Waitlist
-                </Button>
-            )
-            button_two = (
-                <Button size="small" color="primary" {...opts}>
-                    <Link to={{
-                        pathname :'/edit_instrument',
-                        state: { foo: 'bar'}
-                    }}>Edit</Link>
                 </Button>
             )
         }
@@ -145,7 +143,7 @@ class InstrumentCard extends React.Component{
                 </CardActionArea>
                 <CardActions>
                     {button_one}
-                    {button_two}
+                    {edit_button}
                 </CardActions>
 
             </Card>

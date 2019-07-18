@@ -10,9 +10,8 @@ class EditInstrument extends React.Component {
     }
 
     render() {
-        console.log(this.props.location.state)
         return (
-            <EditInstrumentFields data={this.props.data}/>
+            <EditInstrumentFields data={this.props.location.state.data}/>
         );
     }
 }

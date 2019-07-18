@@ -221,24 +221,22 @@ function RegisterFields() {
 }
 
 function EditInstrumentFields(props) {
-    console.log(props)
+    let data = props.data
     const classes = useStyles();
     const [values, setValues] = React.useState({
-        instrument_type : '',
-        instrument_status :'',
-        ip_address :'',
-        ip_address_2 :'',
-        instrument_name :'',
-        instrument_image :'',
-        instrument_current_owner : '',
-        instrument_connection : '',
-        instrument_detector_1 : '',
-        instrument_detector_2 : '',
-        instrument_detector_3 : '',
-        instrument_sampler_1 : '',
-        instrument_sampler_2 : '',
-        instrument_pump : '',
-        instrument_column_compartment : '',
+        instrument_type : data.instrument_type,
+        instrument_status : data.instrument_status,
+        ip_address : data.ip_address,
+        ip_address_2 : data.ip_address_2,
+        instrument_name : data.instrument_name,
+        instrument_connection : data.instrument_connection,
+        instrument_detector_1 : data.instrument_detector_1,
+        instrument_detector_2 : data.instrument_detector_2,
+        instrument_detector_3 : data.instrument_detector_3,
+        instrument_sampler_1 : data.instrument_sampler_1,
+        instrument_sampler_2 : data.instrument_sampler_2,
+        instrument_pump : data.instrument_pump,
+        instrument_column_compartment : data.instrument_column_compartment,
     });
 
     const [open, setOpen] = React.useState(false);
@@ -248,15 +246,12 @@ function EditInstrumentFields(props) {
     };
 
     const handleSubmit = event => {
-        const id = sessionStorage.getItem('user_id'),
-            submitData = {
+        const  submitData = {
                 'instrument_type' : values.instrument_type,
                 'instrument_status' :values.instrument_status,
                 'ip_address' : values.ip_address,
                 'ip_address_2' :values.ip_address_2,
                 'instrument_name' :values.instrument_name,
-                'instrument_image' :values.instrument_image,
-                'instrument_current_owner' : values.instrument_current_owner,
                 'instrument_connection' : values.instrument_connection,
                 'instrument_detector_1' : values.instrument_detector_1,
                 'instrument_detector_2' : values.instrument_detector_2,
@@ -266,7 +261,8 @@ function EditInstrumentFields(props) {
                 'instrument_pump' : values.instrument_pump,
                 'instrument_column_compartment' : values.instrument_column_compartment,
             },
-            url = 'http://127.0.0.1:8000/edit_instrument/';
+            url = 'http://127.0.0.1:8000/instruments/' + data.id + '/';
+        console.log(submitData)
         fetch(url, {
             method: 'PATCH', // or 'PUT'
             body: JSON.stringify(submitData), // data can be `string` or {object}!
@@ -284,14 +280,10 @@ function EditInstrumentFields(props) {
                 }
             })
             .then(response => {
-                // Saves token to sessionStorage & passes up auth state to trigger rerender
-                if (sessionStorage) {
-                    sessionStorage.setItem('full_name', values.firstName + ' ' + values.lastName);
-                    sessionStorage.setItem('email', values.email);
-                    console.log('Instrument update successful')
-                    setOpen(true);
+                console.log('Instrument update successful');
+                setOpen(true);
                 }
-            })
+            )
             .catch(error => console.error('API error:', error));
         event.preventDefault();
     }
@@ -311,7 +303,7 @@ function EditInstrumentFields(props) {
                     id="standard-name"
                     label="instrument_type"
                     className={classes.textField}
-                    value={values.instrument_status}
+                    value={values.instrument_type}
                     onChange={handleChange('instrument_type')}
                     margin="normal"
                 />
@@ -345,22 +337,6 @@ function EditInstrumentFields(props) {
                     className={classes.textField}
                     value={values.instrument_name}
                     onChange={handleChange('instrument_name')}
-                    margin="normal"
-                />
-                <TextField
-                    id="standard-name"
-                    label="instrument_image"
-                    className={classes.textField}
-                    value={values.instrument_image}
-                    onChange={handleChange('instrument_image')}
-                    margin="normal"
-                />
-                <TextField
-                    id="standard-name"
-                    label="instrument_current_owner"
-                    className={classes.textField}
-                    value={values.instrument_current_owner}
-                    onChange={handleChange('instrument_current_owner')}
                     margin="normal"
                 />
                 <TextField
