@@ -85,6 +85,13 @@ class InstrumentCard extends React.Component{
         let opts = {},
         button_one, edit_button;
 
+
+
+        // If not authenticated, disabled is added to dynamic attribute
+        if (!is_auth) {
+            opts['disabled'] = 'disabled';
+        }
+
         edit_button = (
             <Button size="small" color="primary" {...opts}>
                 <Link
@@ -92,14 +99,10 @@ class InstrumentCard extends React.Component{
                         pathname: "/edit_instrument",
                         state: { data: this.props.data }
                     }}
+                    style={{ textDecoration: 'none', color:'inherit' }}
                 >Edit </Link>
             </Button>
         )
-
-        // If not authenticated, disabled is added to dynamic attribute
-        if (!is_auth) {
-            opts['disabled'] = 'disabled';
-        }
 
         if (alreadyJoined) {
             button_one = (
