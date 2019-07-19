@@ -3,7 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Menu2 from '@material-ui/icons/Menu';
-import Logout from './logout';
+import {Link} from "react-router-dom";
 
 
 function NavbarMenu(props) {
@@ -38,9 +38,9 @@ function NavbarMenu(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
-                    My account
-                </MenuItem>
+                    <Link to="/usersettings">
+                        <MenuItem  onClick={handleClose}> User Settings</MenuItem>
+                    </Link>
                 <MenuItem onClick={handleLogout}>
                     Logout
                 </MenuItem>

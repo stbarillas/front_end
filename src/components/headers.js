@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
 import Login from "./login";
-// import Logout from './logout';
 import {NavbarMenu} from './menus'
 
 
@@ -45,9 +44,6 @@ export default function ButtonAppBar(props) {
                 <Toolbar>
                     <Button color="inherit">
                         <Link to="/">Instruments</Link>
-                    </Button>
-                    <Button color="inherit">
-                        <Link to="/usersettings">User Settings</Link>
                     </Button>
                     {button}
                 </Toolbar>
