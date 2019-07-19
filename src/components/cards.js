@@ -9,12 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import {joinQueue, leaveQueue} from '../tasks/queue'
 import SimpleList from './lists'
 import './cards.css'
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-import ButtonAppBar from "./headers";
-import Homepage from "../pages/homepage";
-import UserSettings from "../pages/user_settings";
-import Register from "../pages/register";
-import EditInstrument from "../pages/edit_instrument";
+import {Link} from "react-router-dom";
+
 
 
 class InstrumentCard extends React.Component{
@@ -56,11 +52,13 @@ class InstrumentCard extends React.Component{
                 // Loop through queue and return entries for current instrument only
                 let filteredChecklist = response.filter(
                     (listEntry) => {
-                        const instrumentId = String(listEntry.instrument_pk);
-                        // Only returns checklist entries that match instrument pk
-                        return instrumentId.indexOf(this.props.data.id) !== -1;
+                        const instrumentId = listEntry.instrument_pk;
+
+                        // Only returns checklist entries that match instrument pk exactly
+                        return instrumentId === this.props.data.id;
                     });
                 this.setState({queue: filteredChecklist})
+                console.log(filteredChecklist)
                 return filteredChecklist
             })
             .then(response => {

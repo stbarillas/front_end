@@ -3,9 +3,7 @@ import Button from '@material-ui/core/Button';
 
 
 class Logout extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
 
     render() {
 
