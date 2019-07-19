@@ -58,7 +58,6 @@ class InstrumentCard extends React.Component{
                         return instrumentId === this.props.data.id;
                     });
                 this.setState({queue: filteredChecklist})
-                console.log(filteredChecklist)
                 return filteredChecklist
             })
             .then(response => {

@@ -153,6 +153,7 @@ function RegisterFields() {
             .then(res => {
                 if(res.ok){
                     console.log('user created in database')
+                    setOpen(true);
                     return res.json
                 } else {
                     throw new Error(res.status);
