@@ -1,28 +1,50 @@
 import React from "react";
+import TextField from '@material-ui/core/TextField';
+import {makeStyles} from "@material-ui/core";
+import Button from '@material-ui/core/Button';
+import {Link} from "react-router-dom";
 
-class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-        };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 150,
+    },
+    dense: {
+        marginTop: 19,
+    },
+    menu: {
+        width: 200,
+    },
+    close: {
+        padding: theme.spacing(0.5),
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+}));
 
-    handleChange(event) {
-        const target = event.target;
-        const name = target.name;
-        this.setState({[name]: target.value});
-    }
+function Login(props) {
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        username: '',
+        password: '',
+    });
 
-    handleSubmit(event) {
+    const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+    };
+
+    function handleSubmit(event) {
         const url = 'http://127.0.0.1:8000/api-token-auth/';
         var data = {
-            "username": this.state.username,
-            "password": this.state.password,
+            "username": values.username,
+            "password": values.password,
         }
         fetch(url, {
             method: 'POST', // or 'PUT'
@@ -45,29 +67,42 @@ class Login extends React.Component {
                 if (sessionStorage) {
                     sessionStorage.setItem('token', response['token']);
                     sessionStorage.setItem('user_id', response['user_id']);
-                    sessionStorage.setItem('username', this.state.username)
+                    sessionStorage.setItem('username', values.username)
                     sessionStorage.setItem('full_name', response['full_name']);
                     sessionStorage.setItem('email', response['email']);
-                    this.props.on_login();
+                    props.on_login();
                 }
             })
             .catch(error => console.error('API error:', error));
         event.preventDefault();
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    <input type="text" name={'username'} value={this.state.value} onChange={this.handleChange} placeholder={'username'} />
-                </label>
-                <label>
-                    <input type="text" name={'password'} value={this.state.value} onChange={this.handleChange} placeholder={'password'}/>
-                </label>
-                <input type="submit" value="Submit"/>
-            </form>
-        );
-    }
+    return (
+        <form onSubmit={handleSubmit}>
+            <TextField
+                id="standard-name"
+                className={classes.textField}
+                label="username"
+                value={values.username}
+                onChange={handleChange('username')}
+                margin="normal"
+            />
+            <TextField
+                id="standard-name"
+                className={classes.textField}
+                label="password"
+                value={values.password}
+                onChange={handleChange('password')}
+                margin="normal"
+            />
+            <Button variant="contained" className={classes.button} type='submit'>
+                Login
+            </Button>
+            <Button variant="contained" className={classes.button}>
+                <Link to="/register">register</Link>
+            </Button>
+        </form>
+    );
 }
 
 export default Login

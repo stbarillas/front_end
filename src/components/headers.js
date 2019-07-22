@@ -1,8 +1,6 @@
-
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
 import Login from "./login";
-import {NavbarMenu} from './menus'
 
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -205,9 +203,6 @@ export default function PrimarySearchAppBar(props) {
         renderAppButtons = (
             <span>
                 <Login on_login={()=>props.on_login()}/>
-                <Button color="inherit">
-                    <Link to="/register">register</Link>
-                </Button>
             </span>
         )
     }
@@ -262,36 +257,3 @@ export default function PrimarySearchAppBar(props) {
         </div>
     );
 }
-
-
-// export default function ButtonAppBar(props) {
-//     const classes = useStyles();
-//     let button;
-//
-//     if (props.is_auth) {
-//         // button = <Logout on_logout={()=>props.on_logout()}/>
-//         button = <NavbarMenu on_logout={()=>props.on_logout()}/>
-//     }else {
-//         button = (
-//             <span>
-//                 <Login on_login={()=>props.on_login()}/>
-//                 <Button color="inherit">
-//                     <Link to="/register">register</Link>
-//                 </Button>
-//             </span>
-//         )
-//     }
-//
-//     return (
-//         <div className={classes.root}>
-//             <AppBar position="static">
-//                 <Toolbar>
-//                     <Button color="inherit">
-//                         <Link to="/">Instruments</Link>
-//                     </Button>
-//                     {button}
-//                 </Toolbar>
-//             </AppBar>
-//         </div>
-//     );
-// }
