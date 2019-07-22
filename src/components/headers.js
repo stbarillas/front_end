@@ -109,6 +109,9 @@ export default function PrimarySearchAppBar(props) {
         handleMenuClose();
         props.on_logout()
     }
+    function handleSearch(event) {
+        console.log(event.target.value)
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -221,12 +224,13 @@ export default function PrimarySearchAppBar(props) {
                             <SearchIcon />
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder="Filter…"
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
                             inputProps={{ 'aria-label': 'Search' }}
+                            onChange={props.handleSearch}
                         />
                     </div>
                     <div className={classes.grow} />
