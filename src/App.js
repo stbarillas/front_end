@@ -13,6 +13,7 @@ class App extends React.Component{
         super(props);
         this.state = {
             auth: false,
+            instruments: [],
         };
     }
     handleLogin() {
@@ -27,6 +28,10 @@ class App extends React.Component{
             this.setState({auth: true});
         }
     }
+    updateInstruments(data) {
+        const instruments = data;
+        this.setState({instruments: instruments})
+    }
     render(){
         return (
             <Router>
@@ -38,7 +43,12 @@ class App extends React.Component{
                     />
                     <Route
                         exact path="/"
-                        render={(props) => <Homepage is_auth={this.state.auth}/>}
+                        render={(props) =>
+                            <Homepage
+                                is_auth={this.state.auth}
+                                instruments={this.state.instruments}
+                                updateInstruments={(data)=>this.updateInstruments(data)}
+                            />}
                     />
                     <Route path="/usersettings" component={UserSettings}/>
                     <Route path="/register" component={Register}/>

@@ -6,7 +6,7 @@ class Homepage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            instruments: [],
+            placeholder: [],
         }
     }
 
@@ -24,7 +24,8 @@ class Homepage extends React.Component {
             })
             // Extracts and saves data to app state under 'instruments'
             .then((data) => {
-                this.updateInstruments(data)
+                // this.updateInstruments(data)
+                this.props.updateInstruments(data)
             })
             // Displays error if API call is unsuccessful
             .catch((err) => {
@@ -33,16 +34,10 @@ class Homepage extends React.Component {
             })
     }
 
-    // Updates Instrument State
-    updateInstruments(data) {
-        const instruments = data;
-        this.setState({instruments: instruments})
-    }
-
     render() {
         return (
             <Grid container spacing={3}>
-                {this.state.instruments.map((instrument)=>{
+                {this.props.instruments.map((instrument)=>{
                     return (
                         <Grid item>
                             <InstrumentCard data={instrument} is_auth={this.props.is_auth} />
