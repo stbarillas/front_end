@@ -42,8 +42,7 @@ class App extends React.Component{
                     />
                     <Route path="/usersettings" component={UserSettings}/>
                     <Route path="/register" component={Register}/>
-                    <Route path="/edit_instrument" component={EditInstrument}/> }
-                    />
+                    <Route path="/edit_instrument" component={EditInstrument}/>
                 </div>
             </Router>
         );

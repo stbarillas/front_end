@@ -38,9 +38,9 @@ function NavbarMenu(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                    <Link to="/usersettings">
-                        <MenuItem  onClick={handleClose}> User Settings</MenuItem>
-                    </Link>
+                <Link to="/usersettings">
+                    <MenuItem  onClick={handleClose}> User Settings</MenuItem>
+                </Link>
                 <MenuItem onClick={handleLogout}>
                     Logout
                 </MenuItem>
