@@ -15,7 +15,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
+import AddIcon from '@material-ui/icons/Add';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
@@ -145,15 +145,15 @@ export default function PrimarySearchAppBar(props) {
         >
             <MenuItem>
                 <IconButton aria-label="Show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
+                    <Badge badgeContent={0} color="secondary">
+                        <AddIcon />
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="Show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
+                    <Badge badgeContent={0} color="secondary">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -177,13 +177,13 @@ export default function PrimarySearchAppBar(props) {
     if (props.is_auth) {
         renderAppButtons = (
             <span>
-                <IconButton aria-label="Show 4 new mails" color="inherit">
-                    <Badge badgeContent={5} color="secondary">
-                        <MailIcon />
+                <IconButton aria-label="Add Instrument Button" color="inherit">
+                    <Badge badgeContent={0} color="secondary">
+                        <AddIcon />
                     </Badge>
                 </IconButton>
                 <IconButton aria-label="Show 17 new notifications" color="inherit">
-                    <Badge badgeContent={1} color="secondary">
+                    <Badge badgeContent={0} color="secondary">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -211,16 +211,10 @@ export default function PrimarySearchAppBar(props) {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="Open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Instrument-Queue
+                        <Link to="/">
+                            Instrument-Queue
+                        </Link>
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
