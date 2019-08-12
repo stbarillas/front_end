@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import './App.css';
 import Homepage from './pages/homepage'
-import UserSettings from './pages/user_settings'
-import Register from './pages/register'
-// import EditInstrument from './pages/edit_instrument'
 import ButtonAppBar from './components/headers'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import EditInstrument from "./pages/edit_instrument";
+
+// Lazy route imports
+const Register = lazy(() => import('./pages/register'));
+const UserSettings = lazy(() => import('./pages/user_settings'));
 
 class App extends React.Component{
     constructor(props) {
@@ -45,28 +46,29 @@ class App extends React.Component{
                 // Only returns checklist entries that match user pk
                 return instrumentName.indexOf(searchInput) !== -1;
             });
+
         return (
             <Router>
-                <div>
-                    <ButtonAppBar
-                        on_login={()=>this.handleLogin()}
-                        on_logout={()=> this.handleLogout()}
-                        is_auth={this.state.auth}
-                        handleSearch={(event)=>this.handleSearchInput(event)}
-                    />
-                    <Route
-                        exact path="/"
-                        render={(props) =>
-                            <Homepage
-                                is_auth={this.state.auth}
-                                instruments={filteredInstruments}
-                                updateInstruments={(data)=>this.updateInstruments(data)}
-                            />}
-                    />
-                    <Route path="/usersettings" component={UserSettings}/>
-                    <Route path="/register" component={Register}/>
-                    <Route path="/edit_instrument" component={EditInstrument}/>
-                </div>
+                <Suspense fallback={<div>Loading...</div>}>
+                        <ButtonAppBar
+                            on_login={()=>this.handleLogin()}
+                            on_logout={()=> this.handleLogout()}
+                            is_auth={this.state.auth}
+                            handleSearch={(event)=>this.handleSearchInput(event)}
+                        />
+                        <Route
+                            exact path="/"
+                            render={(props) =>
+                                <Homepage
+                                    is_auth={this.state.auth}
+                                    instruments={filteredInstruments}
+                                    updateInstruments={(data)=>this.updateInstruments(data)}
+                                />}
+                        />
+                        <Route path="/usersettings" component={UserSettings}/>
+                        <Route path="/register" component={Register}/>
+                        <Route path="/edit_instrument" component={EditInstrument}/>
+                </Suspense>
             </Router>
         );
     }
