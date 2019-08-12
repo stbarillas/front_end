@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import InstrumentCard from "../components/cards";
+import logo from "../static/test/css_sprites.png"
 
 class Homepage extends React.Component {
     constructor(props) {
@@ -36,15 +37,17 @@ class Homepage extends React.Component {
 
     render() {
         return (
-            <Grid container spacing={3}>
-                {this.props.instruments.map((instrument)=>{
-                    return (
-                        <Grid item>
-                            <InstrumentCard data={instrument} is_auth={this.props.is_auth} />
-                        </Grid>
-                    )
-                })}
-            </Grid>
+            <div>
+                <Grid container spacing={3}>
+                    {this.props.instruments.map((instrument)=>{
+                        return (
+                            <Grid item>
+                                <InstrumentCard data={instrument} is_auth={this.props.is_auth} />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </div>
         );
     }
 }
